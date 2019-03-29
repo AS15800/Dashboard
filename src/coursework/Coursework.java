@@ -38,6 +38,11 @@ public class Coursework {
     public static void main(String[] args) {
 
         Coursework cw = new Coursework();
+        
+        //TODO: Move all logic to model
+        //TODO: Create connection to view and model in Controller
+        Model model = new Model();
+        Controller controller = new Controller();
     }
 
     private final Dials speedDial2;
