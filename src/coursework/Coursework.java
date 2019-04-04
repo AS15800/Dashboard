@@ -20,8 +20,9 @@ import javax.swing.BoxLayout;
 
 import Dials.Dials;
 import Dials.Bar;
-import Game.GameLogic;
 import Time.TimeKeeping;
+import Time.display;
+import setup.setUp;
 
 /**
  *
@@ -30,7 +31,6 @@ import Time.TimeKeeping;
 public class Coursework {
 
     private final TimeKeeping time = new TimeKeeping();
-    private final GameLogic game = new GameLogic();
 
     /**
      * @param args the command line arguments
@@ -41,8 +41,15 @@ public class Coursework {
         
         //TODO: Move all logic to model
         //TODO: Create connection to view and model in Controller
+        
+        //View class - Contains only user Interface part
+        //Model calss - All the logic of the software
+        //Controller - Connection between the Model and View
         Model model = new Model();
         Controller controller = new Controller();
+        
+        setUp set = new setUp("Clock", 500);
+        set.start();
     }
 
     private final Dials speedDial2;
@@ -62,6 +69,8 @@ public class Coursework {
     JButton OnOff = new JButton("Turn on");
 
     JTextField engineStatus = new JTextField();
+    
+    JTextField pressureText = new JTextField();
 
     private double speed;
     private double pressure;
@@ -75,7 +84,6 @@ public class Coursework {
         dashboard.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         time.setVisible(true);
-        game.setVisible(true);
 
         Speed.setBounds(50, 250, 200, 30);
         dashboard.add(Speed);
@@ -111,6 +119,10 @@ public class Coursework {
 
         decrement.setBounds(50, 450, 200, 30);
         dashboard.add(decrement);
+        
+        pressureText.setVisible(true);
+        pressureText.setBounds(400,450,200,30);
+        dashboard.add(pressureText);
 
         DecreaseSpeed();
         IncreaseSpeed();
@@ -342,7 +354,6 @@ public class Coursework {
         increment.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                long time = System.currentTimeMillis();
                 speed = speed + 10;
                 speedDial2.repaint();
                 TopDials.validate();

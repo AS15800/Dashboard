@@ -7,12 +7,13 @@ package Time;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import javax.swing.JFrame;
 
 /**
  *
  * @author as5373u
  */
-public class TimeKeeping extends javax.swing.JFrame {
+public class TimeKeeping extends JFrame {
 
     int run = 0;
 
