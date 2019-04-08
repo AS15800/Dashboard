@@ -5,8 +5,6 @@
  */
 package coursework;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -14,23 +12,30 @@ import javax.swing.JTextField;
 
 
 import java.awt.Color;
-import java.util.Timer;
-import java.util.TimerTask;
 import javax.swing.BoxLayout;
 
 import Dials.Dials;
 import Dials.Bar;
 import Time.TimeKeeping;
-import Time.display;
+import java.awt.GridLayout;
 import setup.setUp;
 
 /**
  *
  * @author as5373u
  */
-public class Coursework {
+
+/*
+This class is the View.
+It only contains the UI and all the calculation are on another class.
+
+*/
+public class Coursework{
 
     private final TimeKeeping time = new TimeKeeping();
+    private final Speed model = new Speed();
+    EngineStatus myEngine = new EngineStatus();
+    
 
     /**
      * @param args the command line arguments
@@ -39,67 +44,79 @@ public class Coursework {
 
         Coursework cw = new Coursework();
         
-        //TODO: Move all logic to model
-        //TODO: Create connection to view and model in Controller
-        
-        //View class - Contains only user Interface part
-        //Model calss - All the logic of the software
-        //Controller - Connection between the Model and View
-        Model model = new Model();
-        Controller controller = new Controller();
-        
-        setUp set = new setUp("Clock", 500);
+        setUp set = new setUp("Clock", 350);
         set.start();
     }
 
-    private final Dials speedDial2;
-    private final Dials speedDial3;
+    public static Dials speedDial2;
+    public static Dials speedDial3;
 
-    private final Bar temperature;
+    public static Bar temperature;
 
     private final JPanel mainPanel;
     private final JPanel firstLine;
-    private final JPanel TopDials;
+    public static JPanel TopDials;
     private final JPanel secondDials;
 
-    JTextField Speed = new JTextField();
-    JButton decrement = new JButton("Decrease by 10");
-    JButton increment = new JButton("Increase by 10");
-    JButton speedCal = new JButton("Calculate");
-    JButton OnOff = new JButton("Turn on");
-
-    JTextField engineStatus = new JTextField();
+    public static JTextField Speed = new JTextField();
+    public static JButton decrement = new JButton("Decrease by 10");
+    public static JButton increment = new JButton("Increase by 10");
+    public static JButton speedCal = new JButton("Calculate");
+    public static JButton OnOff = new JButton("Turn on");
     
-    JTextField pressureText = new JTextField();
+    public static JButton scriptBtn = new JButton("Run script");
 
-    private double speed;
-    private double pressure;
-    private double temperatureCount;
+    public static JTextField engineStatus = new JTextField();
+    
+    private final JTextField welcome = new JTextField();
+    private final JTextField toStart = new JTextField();
+
+    public static double speed;
+    public static double pressure;
+    public static double temperatureCount;
 
     public Coursework() {
+        
+        myEngine.engine();
         //This is creating and setting up a new JFrame.
         JFrame dashboard = new JFrame("This is the coursework");
         dashboard.setSize(1180, 900);
         dashboard.setLocation(350, 0);
         dashboard.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
+        Singleton x = Singleton.getInstance();
+        Singleton y = Singleton.getInstance();
+        
         time.setVisible(true);
 
-        Speed.setBounds(50, 250, 200, 30);
+        Speed.setBounds(50, 300, 200, 30);
         dashboard.add(Speed);
         mainPanel = new JPanel();
 
         //This is the first panel
-        firstLine = new JPanel();
+        firstLine = new JPanel(new GridLayout(2,2));
         firstLine.setVisible(true);
         mainPanel.add(firstLine);
-
+        
+        welcome.setVisible(true);
+        welcome.setSize(200, 200);
+        toStart.setLocation(0, 0);
+        firstLine.add(welcome);
+        
         //This is the on/off button
         OnOff.setVisible(true);
         OnOff.setBounds(600, 100, 100, 30);
         OnOff.setBackground(Color.green);
         firstLine.add(OnOff);
-        OnOffBtn();
+        model.OnOffBtn();
+        
+        toStart.setVisible(true);
+        toStart.setSize(200, 200);
+        toStart.setLocation(0, 50);
+        firstLine.add(toStart);
+        
+        welcome.setText(x.welcome + "Welcome to our train dashboard");
+        toStart.setText(x.welcome + "To start, click the Turn on button");
 
         engineStatus.setVisible(true);
         engineStatus.setSize(100, 100);
@@ -107,7 +124,7 @@ public class Coursework {
 
         //This is the text for calcul
         speedCal.setVisible(true);
-        speedCal.setBounds(50, 300, 200, 30);
+        speedCal.setBounds(50, 350, 200, 30);
         dashboard.add(speedCal);
 
         increment.setVisible(true);
@@ -120,13 +137,13 @@ public class Coursework {
         decrement.setBounds(50, 450, 200, 30);
         dashboard.add(decrement);
         
-        pressureText.setVisible(true);
-        pressureText.setBounds(400,450,200,30);
-        dashboard.add(pressureText);
-
-        DecreaseSpeed();
-        IncreaseSpeed();
-        SpeedControl();
+        scriptBtn.setVisible(true);
+        scriptBtn.setBounds(400,450, 200, 30);
+        dashboard.add(scriptBtn);
+        
+        model.DecreaseSpeed();
+        model.IncreaseSpeed();
+        model.SpeedControl();
 
         mainPanel.setSize(200, 200);
         mainPanel.setVisible(true);
@@ -172,250 +189,5 @@ public class Coursework {
         temperature.setLabel("Temperature");
 
         dashboard.setVisible(true);
-    }
-
-    //This is the On/Off button which simulate the engine turning and off.
-    //Turning off will diable all the controls so the user can't do anything in the dashboard.
-    private void OnOffBtn() {
-        SystemOff();
-        OnOff.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (OnOff.getText() == "Turn on") {
-
-                    SystemOn();
-                    OnOff.setText("Turn off");
-                    try {
-                        Thread.sleep(500);
-                    } catch (InterruptedException ex) {
-                        System.out.println("Problem: " + ex);
-                    }
-
-                    new Thread() {
-                        @Override
-                        public void run() {
-                            engineStatus.setText("Engine Starting");
-                        }
-                    }.start();
-
-                } else if (OnOff.getText() == "Turn off") {
-
-                    new Thread() {
-                        @Override
-                        public void run() {
-                            speed = 0;
-                            speedDial2.repaint();
-                            speedDial2.setValue((int) speed);
-                            pressure = 0;
-                            speedDial3.repaint();
-                            speedDial3.setValue((int) pressure);
-                            SystemOff();
-                            OnOff.setText("Turn on");
-                            try {
-                                Thread.sleep(500);
-                            } catch (InterruptedException ex) {
-                                System.out.println("Problem: " + ex);
-                            }
-
-                        }
-                    }.start();
-
-                }
-            }
-        });
-    }
-
-    //This method will be called when the user turns off the dashboard.
-    private void SystemOff() {
-        decrement.setEnabled(false);
-        increment.setEnabled(false);
-        speedCal.setEnabled(false);
-        Speed.setEnabled(false);
-
-        OnOff.setBackground(Color.green);
-        temperatureDecrease();
-    }
-
-    //This methods is called when the dashboard is turned off.
-    private void SystemOn() {
-        decrement.setEnabled(true);
-        increment.setEnabled(true);
-        speedCal.setEnabled(true);
-        Speed.setEnabled(true);
-
-        OnOff.setBackground(Color.red);
-    }
-
-    //This is allows the user to decrease the speed of the train.
-    //It is set to decrease by 10 mph for every click
-    private void DecreaseSpeed() {
-
-        decrement.addActionListener((ActionEvent e) -> {
-            //Reduces the speed and re-paint the hand dial while deleting the
-            //previously drawn hand dial
-            speed = speed - 10;
-            speedDial2.repaint();
-            TopDials.validate();
-            speedDial2.setValue((int) speed);
-            increment.setEnabled(true);
-            while (speed < 1) {
-
-                decrement.setEnabled(false);
-                speedDial2.setValue(0);
-                speedDial2.repaint();
-                break;
-            }
-
-            if (speed <= 0) {
-                Speed.setText("Train is stationed");
-                temperatureDecrease();
-                return;
-            } else if (speed >= 1) {
-                Speed.setText("");
-            }
-
-            if (speed <= -1) {
-                speed = 0;
-            }
-            pressure();
-            temperature();
-        });
-    }
-
-    private void temperatureDecrease() {
-        Timer timer = new Timer();
-        TimerTask task = new TimerTask() {
-            @Override
-            public void run() {
-                temperatureCount -= 0.5;
-
-                temperature.repaint();
-                temperature.setValue((int) temperatureCount);
-
-                if (temperatureCount <= 0) {
-                    temperatureCount = 0;
-
-                    temperature.repaint();
-                    temperature.setValue((int) temperatureCount);
-
-                }
-            }
-        };
-        timer.schedule(task, 0, 500);
-    }
-
-    private void temperature() {
-        Timer timer = new Timer();
-        TimerTask task = new TimerTask() {
-            @Override
-            public void run() {
-                if (speed > 1) {
-                    temperatureCount += 0.05;
-
-                    temperature.repaint();
-                    temperature.setValue((int) temperatureCount);
-                } else if (speed > 30 && temperatureCount > 10) {
-                    temperatureCount += 0.1;
-
-                    temperature.repaint();
-                    temperature.setValue((int) temperatureCount);
-                } else if (speed > 50 && temperatureCount > 20) {
-                    temperatureCount += 0.5;
-
-                    temperature.repaint();
-                    temperature.setValue((int) temperatureCount);
-                } else if (speed > 90 && temperatureCount > 30) {
-                    temperatureCount += 1;
-
-                    temperature.repaint();
-                    temperature.setValue((int) temperatureCount);
-                }
-
-                if (temperatureCount >= 90) {
-                    temperatureCount = 90;
-                }
-            }
-        };
-        timer.schedule(task, 0, 100);
-    }
-
-    private void pressure() {
-        pressure = speed * 0.8;
-        if (pressure >= 70) {
-            pressure = 70;
-        }
-
-        speedDial3.repaint();
-        speedDial3.setValue((int) pressure);
-    }
-
-    //Work similar to the decrease speed except increases the speed of the train by 10.
-    private void IncreaseSpeed() {
-        increment.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                speed = speed + 10;
-                speedDial2.repaint();
-                TopDials.validate();
-                speedDial2.setValue((int) speed);
-                decrement.setEnabled(true);
-                while (speed > 99) {
-                    increment.setEnabled(false);
-                    speedDial2.setValue(100);
-                    speedDial2.repaint();
-                    break;
-                }
-                if (speed >= 100) {
-                    Speed.setText("Maximum speed reached");
-                } else if (speed <= 99) {
-                    Speed.setText("");
-                }
-                if (speed >= 101) {
-                    speed = 0;
-                }
-                pressure = speed * 0.8;
-                if (pressure >= 70 && pressure <= 90) {
-                    pressure = 70;
-                }
-                speedDial3.repaint();
-                speedDial3.setValue((int) pressure);
-
-                if (speed == 100) {
-                    try {
-                        //Thread.sleep(1000);
-                        pressure = 100;
-                    } catch (Exception ex) {
-                        System.out.println("Something went wrong" + ex);
-                    }
-                }
-
-                temperature();
-            }
-        });
-    }
-
-    //This allows the user to input the desired speed.
-    private void SpeedControl() {
-        speedCal.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                speed = Integer.parseInt(Speed.getText());
-                speedDial2.repaint();
-                TopDials.validate();
-                speedDial2.setValue((int) speed);
-                if (speed >= 0 && speed <= 100) {
-                    Speed.setText("");
-                } else {
-                    speedDial2.setValue(0);
-                    Speed.setText("Invalid input");
-                }
-                pressure = speed * 0.8;
-                if (pressure >= 70) {
-                    pressure = 70;
-                }
-                speedDial3.repaint();
-                speedDial3.setValue((int) pressure);
-            }
-        });
     }
 }

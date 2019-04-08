@@ -37,10 +37,12 @@ public class display {
         frame.setSize(size,size);
         frame.setResizable(false);
         frame.setVisible(true);
+        frame.setLocation(0, 300);
         
         canvas = new Canvas();
         canvas.setPreferredSize(new Dimension(size, size));
         canvas.setBackground(Color.lightGray);
+        
         
         frame.add(canvas);
         

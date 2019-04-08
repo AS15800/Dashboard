@@ -3,12 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package coursework;
+package XMLScript;
 
 /**
  *
  * @author as5373u
  */
-public class Model {
+
+//Interface
+public interface EventListener {
+    
+    public void processDashBoardEvent(Object originator, dashboardEvent dbe);
     
 }

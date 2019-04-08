@@ -9,6 +9,10 @@ package coursework;
  *
  * @author as5373u
  */
-public class Controller {
+public class EngineStatus implements Text{
+@Override
+public void engine(){
+    System.out.println("Engine starting");
+}
     
 }

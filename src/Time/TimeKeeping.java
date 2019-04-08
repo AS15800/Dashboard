@@ -54,9 +54,13 @@ public class TimeKeeping extends JFrame {
         currentTime = new javax.swing.JLabel();
         day = new javax.swing.JLabel();
         date = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
+        jTextField2 = new javax.swing.JTextField();
+        jTextField3 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(340, 900));
+        setPreferredSize(new java.awt.Dimension(340, 300));
 
         jPanel2.setBackground(new java.awt.Color(0, 0, 0));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -77,13 +81,33 @@ public class TimeKeeping extends JFrame {
         date.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jPanel2.add(date, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 110, 270, 40));
 
+        jTextField1.setToolTipText("");
+
+        jButton1.setText("X");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 328, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 328, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(28, 28, 28)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(28, 28, 28)
+                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -91,12 +115,32 @@ public class TimeKeeping extends JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(721, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jTextField1)
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
+                    .addComponent(jTextField2)
+                    .addComponent(jTextField3))
+                .addContainerGap(53, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        
+        try{
+        int a = Integer.parseInt(jTextField1.getText());
+        int b = Integer.parseInt(jTextField2.getText());
+        jTextField3.setText("" + (a * b));
+    } catch (NumberFormatException ex){
+        
+    }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    protected void jButton1ActionPerformed_proxy(java.awt.event.ActionEvent evt) {
+        jButton1ActionPerformed(evt);
+    }
     /**
      * @param args the command line arguments
      */
@@ -137,6 +181,10 @@ public class TimeKeeping extends JFrame {
     private javax.swing.JLabel currentTime;
     private javax.swing.JLabel date;
     private javax.swing.JLabel day;
+    private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel2;
+    protected javax.swing.JTextField jTextField1;
+    protected javax.swing.JTextField jTextField2;
+    protected javax.swing.JTextField jTextField3;
     // End of variables declaration//GEN-END:variables
 }
