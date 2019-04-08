@@ -12,20 +12,23 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import XMLScript.*;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author as5373u
  */
-public class Speed extends SystemActive{
-    
+public class Speed extends SystemActive {
+
     public static final String XML_SCRIPT = "dashboard_script.xml";
-    
-    public Speed(){
-    scriptBtn.addActionListener(new ActionListener() {
+
+    public Speed() {
+
+        scriptBtn.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(null, "Running the script causes some glitches in the dials");
                 new Thread() {
                     public void run() {
                         runXMLScript();
@@ -33,10 +36,9 @@ public class Speed extends SystemActive{
                 }.start();
             }
         });
-    
-    
-}
-    
+
+    }
+
     private void runXMLScript() {
         try {
             GenerateXML dbegXML = new GenerateXML();
@@ -50,15 +52,23 @@ public class Speed extends SystemActive{
             };
             dbegXML.registerDashBoardEventListener("speed", dbelSpeed);
 
-            // Register for petrol events from the XML script file
-            EventListener dbelPetril = new EventListener() {
+            //Pressure from XML file
+            EventListener dbelTemperature = new EventListener() {
                 @Override
                 public void processDashBoardEvent(Object originator, dashboardEvent dbe) {
-//                    petrolDial.setValue(Integer.parseInt(dbe.getValue()));
-//                    petrolBar.setValue(Integer.parseInt(dbe.getValue()));
+                    temperature.setValue(Integer.parseInt(dbe.getValue()));
                 }
             };
-            dbegXML.registerDashBoardEventListener("petrol", dbelPetril);
+            dbegXML.registerDashBoardEventListener("temperature", dbelTemperature);
+
+            //Pressure from XML file
+            EventListener dbelPressure = new EventListener() {
+                @Override
+                public void processDashBoardEvent(Object originator, dashboardEvent dbe) {
+                    speedDial3.setValue(Integer.parseInt(dbe.getValue()));
+                }
+            };
+            dbegXML.registerDashBoardEventListener("pressure", dbelPressure);
 
             // Process the script file - it willgenerate events as it runs
             dbegXML.processScriptFile(XML_SCRIPT);
@@ -67,19 +77,19 @@ public class Speed extends SystemActive{
             Logger.getLogger(Speed.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public void pressure() {
         pressure = speed * 0.8;
         if (pressure >= 70) {
             pressure = 70;
-        }else if(speed <= 0 ){
+        } else if (speed <= 0) {
             pressure = 0;
         }
 
         speedDial3.repaint();
         speedDial3.setValue((int) pressure);
     }
-    
+
     public void DecreaseSpeed() {
 
         decrement.addActionListener((ActionEvent e) -> {
@@ -113,7 +123,7 @@ public class Speed extends SystemActive{
             temperature();
         });
     }
-    
+
     public void IncreaseSpeed() {
         increment.addActionListener(new ActionListener() {
             @Override
@@ -182,5 +192,5 @@ public class Speed extends SystemActive{
             }
         });
     }
-    
+
 }

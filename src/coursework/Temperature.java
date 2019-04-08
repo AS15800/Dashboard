@@ -50,7 +50,7 @@ public class Temperature {
         timer.schedule(task, 0, 100);
     }
     
-    public void temperatureDecrease() {
+    public static void temperatureDecrease() {
         Timer timer = new Timer();
         TimerTask task = new TimerTask() {
             @Override

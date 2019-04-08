@@ -271,8 +271,8 @@ public class GenerateXML extends DefaultHandler{
         };
         me.registerDashBoardEventListener("speed", dbel);
         me.processScriptFile(filename);
-        me.removeDashBoardEventListener("speed", dbel);
-        me.processScriptFile(filename);
+//        me.removeDashBoardEventListener("speed", dbel);
+//        me.processScriptFile(filename);
     }
     
 }

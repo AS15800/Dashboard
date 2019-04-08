@@ -34,7 +34,8 @@ public class Coursework{
 
     private final TimeKeeping time = new TimeKeeping();
     private final Speed model = new Speed();
-    EngineStatus myEngine = new EngineStatus();
+    
+    public static EngineStatus myEngine = new EngineStatus();
     
 
     /**
@@ -52,6 +53,8 @@ public class Coursework{
     public static Dials speedDial3;
 
     public static Bar temperature;
+    
+    public static Bar petrol;
 
     private final JPanel mainPanel;
     private final JPanel firstLine;
@@ -77,7 +80,6 @@ public class Coursework{
 
     public Coursework() {
         
-        myEngine.engine();
         //This is creating and setting up a new JFrame.
         JFrame dashboard = new JFrame("This is the coursework");
         dashboard.setSize(1180, 900);
@@ -108,7 +110,7 @@ public class Coursework{
         OnOff.setBounds(600, 100, 100, 30);
         OnOff.setBackground(Color.green);
         firstLine.add(OnOff);
-        model.OnOffBtn();
+        myEngine.engine();
         
         toStart.setVisible(true);
         toStart.setSize(200, 200);
@@ -116,7 +118,7 @@ public class Coursework{
         firstLine.add(toStart);
         
         welcome.setText(x.welcome + "Welcome to our train dashboard");
-        toStart.setText(x.welcome + "To start, click the Turn on button");
+        toStart.setText(y.welcome + "To start, click the Turn on button");
 
         engineStatus.setVisible(true);
         engineStatus.setSize(100, 100);
@@ -168,16 +170,17 @@ public class Coursework{
         TopDials.add(speedDial2);
         //speedDial2.setValue(speed);
         speedDial2.setLabel("Speed");
+        
+        speed = 0;
+        speedDial2.repaint();
+        speedDial2.setValue((int) speed);
 
         speedDial3 = new Dials();
         speedDial3.setVisible(true);
         TopDials.add(speedDial3);
         speedDial3.setValue(80);
         speedDial3.setLabel("Pressure");
-
-        speed = 0;
-        speedDial2.repaint();
-        speedDial2.setValue((int) speed);
+        
 
         pressure = 0;
         speedDial3.repaint();
@@ -187,6 +190,11 @@ public class Coursework{
         temperature.setVisible(true);
         secondDials.add(temperature);
         temperature.setLabel("Temperature");
+        
+        petrol = new Bar();
+        petrol.setVisible(true);
+        secondDials.add(petrol);
+        petrol.setLabel("Petrol");
 
         dashboard.setVisible(true);
     }
