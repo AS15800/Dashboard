@@ -50,23 +50,6 @@ public class TimeKeeping extends JFrame {
         Date dateNow1 = new Date();
         SimpleDateFormat sdf1 = new SimpleDateFormat("EEEE"); //Shows the day
         day.setText(sdf1.format(dateNow1));
-        SimpleDateFormat sdf2 = new SimpleDateFormat("dd/MM/yyyy"); //Show the day/month/year
-        date.setText(sdf2.format(dateNow1));
-        new Thread() {
-            @Override
-            public void run() {
-                while (run == 0) {
-                    Date dateNow = new Date();
-                    SimpleDateFormat sdf1 = new SimpleDateFormat("kk:mm:ss aaaa"); // Shows the time
-                    currentTime.setText(sdf1.format(dateNow));
-                    try {
-                        Thread.sleep(500);
-                    } catch (InterruptedException e) {
-                        System.out.println("Problem: " + e);
-                    }
-                }
-            }
-        }.start();
     }
 
     /**
@@ -80,15 +63,15 @@ public class TimeKeeping extends JFrame {
 
         dateBean2 = new date.DateBean();
         jPanel2 = new javax.swing.JPanel();
-        currentTime = new javax.swing.JLabel();
         day = new javax.swing.JLabel();
-        date = new javax.swing.JLabel();
+        timeBeans1 = new creatingdatabean.timeBeans();
+        dateBean1 = new date.DateBean();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jTextField2 = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
-        timeBeans1 = new creatingdatabean.timeBeans();
-        dateBean1 = new date.DateBean();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(300, 200));
@@ -97,21 +80,28 @@ public class TimeKeeping extends JFrame {
         jPanel2.setBackground(new java.awt.Color(0, 0, 0));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        currentTime.setFont(new java.awt.Font("DialogInput", 1, 36)); // NOI18N
-        currentTime.setForeground(new java.awt.Color(0, 255, 102));
-        currentTime.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jPanel2.add(currentTime, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 40, 270, 70));
-
         day.setBackground(new java.awt.Color(0, 0, 0));
         day.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         day.setForeground(new java.awt.Color(0, 255, 153));
         day.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jPanel2.add(day, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 270, 30));
 
-        date.setBackground(new java.awt.Color(0, 0, 0));
-        date.setForeground(new java.awt.Color(0, 204, 204));
-        date.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jPanel2.add(date, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 110, 270, 40));
+        timeBeans1.setBackground(new java.awt.Color(255, 255, 255));
+        timeBeans1.setForeground(new java.awt.Color(0, 255, 51));
+        timeBeans1.setAlignmentX(1.0F);
+        timeBeans1.setAlignmentY(1.0F);
+        jPanel2.add(timeBeans1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 60, -1, -1));
+        jPanel2.add(dateBean1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 120, -1, -1));
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("Time:");
+        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, -1, -1));
+
+        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setText("Date:");
+        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 120, -1, -1));
 
         jTextField1.setToolTipText("");
 
@@ -124,9 +114,6 @@ public class TimeKeeping extends JFrame {
 
         jLabel1.setText("Input speed:");
 
-        timeBeans1.setBackground(new java.awt.Color(255, 255, 255));
-        timeBeans1.setForeground(new java.awt.Color(0, 255, 51));
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -136,19 +123,13 @@ public class TimeKeeping extends JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 328, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(timeBeans1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(dateBean1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(39, 39, 39)))
                 .addContainerGap(22, Short.MAX_VALUE))
         );
@@ -159,19 +140,13 @@ public class TimeKeeping extends JFrame {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(timeBeans1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(dateBean1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(46, Short.MAX_VALUE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel1)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(100, Short.MAX_VALUE))
         );
 
         pack();
@@ -225,13 +200,13 @@ public class TimeKeeping extends JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel currentTime;
-    private javax.swing.JLabel date;
     private date.DateBean dateBean1;
     private date.DateBean dateBean2;
     private javax.swing.JLabel day;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel2;
     protected javax.swing.JTextField jTextField1;
     protected javax.swing.JTextField jTextField2;
