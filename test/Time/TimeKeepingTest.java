@@ -5,6 +5,7 @@
  */
 package Time;
 
+import java.awt.event.ActionEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.junit.After;
@@ -19,7 +20,6 @@ import static org.junit.Assert.*;
  * @author as5373u
  */
 public class TimeKeepingTest {
-    
     private TimeKeeping instance;
     
     public TimeKeepingTest() {
@@ -35,7 +35,6 @@ public class TimeKeepingTest {
     
     @Before
     public void setUp() {
-        
         instance = new TimeKeeping();
         // just for fun let's see the form
         instance.setVisible(true);
@@ -52,13 +51,47 @@ public class TimeKeepingTest {
     public void testMain() {
         System.out.println("jButton1ActionPerformed_proxy1");
 
-        instance.jTextField1.setText("4");
-        instance.jTextField2.setText("4");
+        instance.jTextField1.setText("100");
 
         pause();
         instance.jButton1ActionPerformed_proxy(null);
         pause();
-        assertEquals(instance.jTextField3.getText(), "16");
+        assertEquals(instance.jTextField2.getText(), "80.0");
+    }
+    
+    @Test
+    public void testMain1() {
+        System.out.println("jButton1ActionPerformed_proxy2");
+
+        instance.jTextField1.setText("1");
+
+        pause();
+        instance.jButton1ActionPerformed_proxy(null);
+        pause();
+        assertEquals(instance.jTextField2.getText(), "0.8");
+    }
+    
+    @Test
+    public void testMain2() {
+        System.out.println("jButton1ActionPerformed_proxy3");
+
+        instance.jTextField1.setText("-50");
+
+        pause();
+        instance.jButton1ActionPerformed_proxy(null);
+        pause();
+        assertEquals(instance.jTextField2.getText(), "-40.0");
+    }
+    
+    @Test(expected = NumberFormatException.class)
+    public void testMain3() {
+        System.out.println("jButton1ActionPerformed_proxy4");
+
+        instance.jTextField1.setText("x");
+
+        pause();
+        instance.jButton1ActionPerformed_proxy(null);
+        pause();
     }
     
     private void pause() {
