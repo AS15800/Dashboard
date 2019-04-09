@@ -1,5 +1,0 @@
-Manifest-Version: 1.0
-Name: date/DateBean.class
-Java-Bean: True
-X-COMMENT: Main-Class will be added automatically by build
-
