@@ -14,10 +14,6 @@ import javax.swing.JFrame;
  * @author as5373u
  */
 public class TimeKeeping extends JFrame {
-    
-    
-
-    int run = 0;
 
     public TimeKeeping() {
         initComponents();
