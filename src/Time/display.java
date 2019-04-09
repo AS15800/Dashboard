@@ -37,7 +37,7 @@ public class display {
         frame.setSize(size,size);
         frame.setResizable(false);
         frame.setVisible(true);
-        frame.setLocation(0, 300);
+        frame.setLocation(0, 500);
         
         canvas = new Canvas();
         canvas.setPreferredSize(new Dimension(size, size));

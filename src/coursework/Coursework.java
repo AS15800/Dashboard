@@ -32,7 +32,7 @@ It only contains the UI and all the calculation are on another class.
 */
 public class Coursework{
 
-    private final TimeKeeping time = new TimeKeeping();
+    private final TimeKeeping time;
     private final Speed model = new Speed();
     
     public static EngineStatus myEngine = new EngineStatus();
@@ -40,8 +40,9 @@ public class Coursework{
 
     /**
      * @param args the command line arguments
+     * @throws java.lang.InterruptedException
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
 
         Coursework cw = new Coursework();
         
@@ -54,7 +55,7 @@ public class Coursework{
 
     public static Bar temperature;
     
-    public static Bar petrol;
+    public static Bar coal;
 
     private final JPanel mainPanel;
     private final JPanel firstLine;
@@ -78,12 +79,13 @@ public class Coursework{
     public static double pressure;
     public static double temperatureCount;
 
-    public Coursework() {
+    public Coursework() throws InterruptedException {
+        this.time = new TimeKeeping();
         
         //This is creating and setting up a new JFrame.
         JFrame dashboard = new JFrame("This is the coursework");
         dashboard.setSize(1180, 900);
-        dashboard.setLocation(350, 0);
+        dashboard.setLocation(400, 0);
         dashboard.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         Singleton x = Singleton.getInstance();
@@ -191,10 +193,10 @@ public class Coursework{
         secondDials.add(temperature);
         temperature.setLabel("Temperature");
         
-        petrol = new Bar();
-        petrol.setVisible(true);
-        secondDials.add(petrol);
-        petrol.setLabel("Petrol");
+        coal = new Bar();
+        coal.setVisible(true);
+        secondDials.add(coal);
+        coal.setLabel("Coal");
 
         dashboard.setVisible(true);
     }
